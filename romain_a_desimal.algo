@@ -1,0 +1,205 @@
+ALGORITHME: chiffres_romains
+
+CONST
+	MINI=1 : ENTIER
+	MAX=3999 : ENTIER
+
+
+ //------------------------------------------------------------------------------------------
+PROCEDURE decimal_romain ()
+VAR
+	decimal : ENTIER
+	romains : CHAINE
+DEBUT
+	//Boucle de saisi
+	REPETER
+		ECRIRE "Entrer un chiffre"
+		LIRE decimal
+	JUSQU'A (decimal > MINI ET decimal < MAX)
+
+	//Les millier
+	TANT QUE decimal>=1000
+	FAIRE
+			romains <- romains + "M"
+			decimal <- decimal - 1000		
+	FINTANTQUE	
+
+	//Les centaines						
+	SI decimal >= 900 ALORS
+		romains <- romains + "CM"
+		decimal <- decimal - 900
+	SINON
+
+		SI decimal >= 500 ALORS
+			romains <- romains + "D"
+			decimal <- decimal - 500
+		SINON
+
+			SI decimal >= 400 ALORS
+					romains <- romains +"CD"
+					decimal <- decimal - 400
+			FINSI
+		FINSI	
+	FINSI
+
+ 
+	TANT QUE decimal >= 100
+	FAIRE
+			romains <- romains + "C"
+			decimal <- decimal - 100
+	FINTANTQUE
+
+	//les dizaines
+	SI decimal >= 90 ALORS
+		romains <- romains + 'XC'
+		decimal <- decimal - 90
+	SINON
+
+		SI decimal >= 50 ALORS
+			romains <- romains + 'L'
+			decimal <- decimal - 50
+		SINON
+			
+			SI decimal >= 40 ALORS
+				romains <- romains + 'XL'
+				decimal <- decimal - 40
+			FINSI
+		FINSI
+	FINSI
+
+	TANT QUE decimal >= 10
+	FAIRE
+			romains <- romains + "X"
+			decimal <- decimal - 10
+	FINTANTQUE
+
+
+	//les unitées
+	SI decimal >= 9 ALORS
+		romains <- romains + 'IX'
+		decimal <- decimal - 9
+	SINON
+
+		SI decimal >= 5 ALORS
+			romains <- romains + 'V'
+			decimal <- decimal - 5
+		SINON
+			
+			SI decimal >= 4 ALORS
+				romains <- romains + 'IV'
+				decimal <- decimal - 4
+			FINSI
+		FINSI
+	FINSI
+
+	TANT QUE decimal >= 1
+	FAIRE
+			romains <- romains + "I"
+			decimal <- decimal - 1
+	FINTANTQUE
+
+FIN
+ //----------------------------------------------------------------------------------------------
+PROCEDURE romain_decimal ()
+VAR
+ 	romains, test1, test2 : CHAINE
+ 	decimal, valTest1, valTest2, i : ENTIER
+DEBUT
+	ECRIRE "Entrer un chiffre romains"
+	LIRE romains
+
+	romains <- romains & '/'
+
+	REPETER
+		test1 <- EXRACTION(romains, i)
+		test2 <- EXRACTION(romains, i + 1)
+
+		valTest2 <- 0
+
+		SI test1='M' ALORS
+			valTest1 <- 1000
+		SINON
+			SI test1='D' ALORS
+				valTest1 <- 500
+			SINON
+				SI test1='C' ALORS
+					valTest1 <- 100
+				SINON
+					SI test1='L' ALORS
+						valTest1 <- 50
+					SINON
+						SI test1='X' ALORS
+							valTest1 <- 10
+						SINON
+							SI test1='V' ALORS
+								valTest1 <- 5
+							SINON
+								SI test1='I' ALORS
+									valTest1 <- 1
+								FINSI
+							FINSI
+						FINSI
+					FINSI
+				FINSI
+			FINSI
+		FINSI
+
+		SI test2='M' ALORS
+			valTest2 <- 1000
+		SINON
+			SI test2='D' ALORS
+				valTest2 <- 500
+			SINON
+				SI test2='C' ALORS
+					valTest2 <- 100
+				SINON
+					SI test2='L' ALORS
+						valTest2 <- 50
+					SINON
+						SI test2='X' ALORS
+							valTest2 <- 10
+						SINON
+							SI test2='V' ALORS
+								valTest2 <- 5
+							SINON
+								SI test2='I' ALORS
+									valTest2 <- 1
+								FINSI
+							FINSI
+						FINSI
+					FINSI
+				FINSI
+			FINSI
+		FINSI
+
+		SI valTest1 > valTest2 ALORS
+			decimal <- decimal + valTest1
+			i <- i + 1
+		SINON
+			decimal <- decimal + (valTest2 - valTest1)
+			i <- i + 2
+		FINSI
+
+	JUSQU'A(test2 = '/')
+
+	ECRIRE decimal
+
+FIN
+ //----------------------------------------------------------------------------------------------
+VAR
+	menu : ENTIER
+DEBUT
+	ECRIRE "CHIFFRES ROMAINS"
+	ECRIRE "Tapez 1 pour décimal -> romains"
+	ECRIRE "Tapez 2 pour romains -> décimal"
+	ECRIRE "Tapez autre chose pour QUITTER"
+	LIRE menu
+
+	SI menu=1 ALORS
+		decimal_romain()
+	SINON
+		SI menu=2 ALORS
+			romain_decimal()
+		FINSI
+	FINSI
+FIN.
